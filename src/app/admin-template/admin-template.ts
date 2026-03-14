@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {Authentication} from '../services/authentication';
 
 @Component({
   selector: 'app-admin-template',
@@ -7,5 +8,15 @@ import { Component } from '@angular/core';
   styleUrl: './admin-template.css',
 })
 export class AdminTemplate {
+  constructor(public authService: Authentication) {
+  }
+
+  ngOnInit() {
+
+  }
+
+  logout() {
+    this.authService.logout()
+  }
 
 }

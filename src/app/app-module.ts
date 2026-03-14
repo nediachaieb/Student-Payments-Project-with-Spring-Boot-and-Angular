@@ -27,6 +27,9 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import {AuthGuard} from './guards/auth-guard';
+import {AuthorizationGuard} from './guards/authorization.guard';
+import {HttpClientModule} from "@angular/common/http";
 
 
 @NgModule({
@@ -46,6 +49,7 @@ import { MatInputModule } from '@angular/material/input';
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    HttpClientModule,
     // Angular Material Modules
     MatToolbarModule,
     MatButtonModule,
@@ -62,7 +66,7 @@ import { MatInputModule } from '@angular/material/input';
     MatInputModule,
   ],
   providers: [
-    provideBrowserGlobalErrorListeners(),
+    provideBrowserGlobalErrorListeners(),AuthGuard,AuthorizationGuard
   ],
   bootstrap: [App]
 })

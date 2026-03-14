@@ -1,4 +1,8 @@
-import { Component } from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {MatTableDataSource} from "@angular/material/table";
+import {MatPaginator} from "@angular/material/paginator";
+import {MatSort} from "@angular/material/sort";
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-payments',
@@ -6,6 +10,81 @@ import { Component } from '@angular/core';
   templateUrl: './payments.html',
   styleUrl: './payments.css',
 })
-export class Payments {
+export class Payments implements OnInit, AfterViewInit {
+  public payments: any[] = [];
+  public dataSource: any;
+
+  public displayedColumns = [
+    "id",
+    "date",
+    "type",
+    "status",
+    "amount",
+    "firstName"
+  ];
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
+  constructor( private http: HttpClient) {
+  }
+
+  ngOnInit(): void {
+
+    this.http.get("http://localhost:8080/payments")
+      .subscribe({
+        next: (data: any) => {
+          this.payments = data;
+          this.dataSource = new MatTableDataSource(this.payments);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        },
+        error: (err) => {
+          console.error("Error fetching payments:", err);
+        }
+      });
+  }
+
+/*
+    1ere version pour générer des noms aléatoires pour les étudiants, mais on va plutôt les récupérer depuis le backend
+    function randomName(length: number) {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+      let result = '';
+      for (let i = 0; i < length; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return result;
+    }
+
+
+
+    const types = ["CASH", "CHECK", "TRANSFER"];
+    const statuses = ["CREATED", "VALIDATED", "REJECTED"];
+
+    for (let i = 1; i <= 100; i++) {
+      this.payments.push({
+        id: i,
+        date: new Date().toISOString().split('T')[0],
+        type: types[Math.floor(Math.random() * types.length)],
+        status: statuses[Math.floor(Math.random() * statuses.length)],
+        amount: Math.floor(Math.random() * 10000),
+        student: {
+          // firstName: randomName(5)
+        }
+      });
+    }
+*/
+
+
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  filterPayments(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = value;
+  }
+
 
 }

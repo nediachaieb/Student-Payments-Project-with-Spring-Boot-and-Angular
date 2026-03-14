@@ -1,1 +1,58 @@
-<p>payments works!</p>
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        Payments Title
+      </mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+      <mat-form-field appearance="outline">
+        <mat-label>Filter</mat-label>
+        <input (change)="filterPayments($event)" matInput>
+      </mat-form-field>
+      <table [dataSource]="dataSource" class="mat-elevation-z1" mat-table matSort>
+
+        <ng-container matColumnDef="id">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header> ID</th>
+          <td *matCellDef="let element" mat-cell> {{ element.id }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="date">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header> Date</th>
+          <td *matCellDef="let element" mat-cell> {{ element.date }}</td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="type">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header> Type</th>
+          <td *matCellDef="let element" mat-cell> {{ element.type }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="status">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header> Status</th>
+          <td *matCellDef="let element" mat-cell> {{ element.status }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="amount">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header> Amount</th>
+          <td *matCellDef="let element" mat-cell> {{ element.amount }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="firstName">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header> First Name</th>
+          <td *matCellDef="let element" mat-cell> {{ element.student.firstName }}</td>
+        </ng-container>
+
+        <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[5, 10, 20, 30, 100]">
+      </mat-paginator>
+
+
+    </mat-card-content>
+  </mat-card>
+</div>
