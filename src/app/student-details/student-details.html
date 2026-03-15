@@ -1,4 +1,12 @@
 <div class="container">
+  <mat-toolbar>
+    <button (click)="newPayment()" mat-raised-button color="primary">
+
+       New Payment
+
+    </button>
+
+  </mat-toolbar>
   <mat-card>
     <mat-card-header>
       <mat-card-title>
@@ -7,11 +15,7 @@
     </mat-card-header>
     <mat-divider></mat-divider>
     <mat-card-content>
-      <mat-form-field appearance="outline">
-        <mat-label>Filter</mat-label>
-        <input (change)="filterPayments($event)" matInput>
-      </mat-form-field>
-      <table [dataSource]="dataSource" class="mat-elevation-z1" mat-table matSort>
+      <table [dataSource]="paymentsDataSource" class="mat-elevation-z1" mat-table matSort>
 
         <ng-container matColumnDef="id">
           <th *matHeaderCellDef mat-header-cell mat-sort-header> ID</th>

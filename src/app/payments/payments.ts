@@ -3,6 +3,7 @@ import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {HttpClient} from '@angular/common/http';
+import {StudentsService} from '../services/students-service';
 
 @Component({
   selector: 'app-payments',
@@ -14,7 +15,7 @@ export class Payments implements OnInit, AfterViewInit {
   public payments: any[] = [];
   public dataSource: any;
 
-  public displayedColumns = [
+  public displayedColumnsPayments = [
     "id",
     "date",
     "type",
@@ -26,12 +27,12 @@ export class Payments implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor( private http: HttpClient) {
+  constructor( private http: HttpClient, private  studentsService: StudentsService) {
   }
 
   ngOnInit(): void {
 
-    this.http.get("http://localhost:8080/payments")
+    this.studentsService.getALLPayments()
       .subscribe({
         next: (data: any) => {
           this.payments = data;

@@ -30,6 +30,9 @@ import { MatInputModule } from '@angular/material/input';
 import {AuthGuard} from './guards/auth-guard';
 import {AuthorizationGuard} from './guards/authorization.guard';
 import {HttpClientModule} from "@angular/common/http";
+import { StudentDetails } from './student-details/student-details';
+import { NewPayment } from './new-payment/new-payment';
+import { NewStudent } from './new-student/new-student';
 
 
 @NgModule({
@@ -43,7 +46,10 @@ import {HttpClientModule} from "@angular/common/http";
     Payments,
     Students,
     LoadStudents,
-    LoadPayments
+    LoadPayments,
+    StudentDetails,
+    NewPayment,
+    NewStudent
   ],
   imports: [
     BrowserModule,
