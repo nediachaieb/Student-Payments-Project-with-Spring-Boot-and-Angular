@@ -17,8 +17,13 @@ export interface Payment {
 }
 
 export enum PaymentStatus {
-  CREATED, VALIDATED, REJECTED
+  CREATED ="CREATED",
+  VALIDATED="VALIDATED",
+  REJECTED = "REJECTED"
 }
 export enum PaymentType {
-   CASH ,CHEQUE ,TRANSFER,DEPOSIT
+  CASH = "CASH",
+  CHECK = "CHECK",
+  TRANSFER = "TRANSFER",
+  DEPOSIT = "DEPOSIT"
 }

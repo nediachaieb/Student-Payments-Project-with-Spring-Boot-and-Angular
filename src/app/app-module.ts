@@ -33,6 +33,11 @@ import {HttpClientModule} from "@angular/common/http";
 import { StudentDetails } from './student-details/student-details';
 import { NewPayment } from './new-payment/new-payment';
 import { NewStudent } from './new-student/new-student';
+import {MatSelectModule} from "@angular/material/select";
+import {
+  MatDatepickerModule,
+} from '@angular/material/datepicker';
+import {MAT_DATE_LOCALE, MatNativeDateModule} from '@angular/material/core';
 
 
 @NgModule({
@@ -70,9 +75,13 @@ import { NewStudent } from './new-student/new-student';
     MatPaginatorModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [
-    provideBrowserGlobalErrorListeners(),AuthGuard,AuthorizationGuard
+    provideBrowserGlobalErrorListeners(),AuthGuard,AuthorizationGuard,
+    { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' }
   ],
   bootstrap: [App]
 })

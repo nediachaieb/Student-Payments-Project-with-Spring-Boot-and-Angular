@@ -12,8 +12,10 @@ import {MatTableDataSource} from '@angular/material/table';
 })
 export class StudentDetails implements OnInit {
   studentCode!: string;
-  studentPayments!:Array<Payment>;
-  paymentsDataSource!: MatTableDataSource<Payment>;
+  studentPayments!: Array<Payment>;
+
+  paymentsDataSource = new MatTableDataSource<Payment>();
+
   public displayedColumnsPayments = [
     "id",
     "date",
@@ -23,27 +25,32 @@ export class StudentDetails implements OnInit {
     "firstName"
   ];
 
-  constructor(private activatedRoute: ActivatedRoute,private studentsService: StudentsService ,private router: Router) {
-
-  }
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private studentsService: StudentsService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
-     this.studentCode = this.activatedRoute.snapshot.params['code'];
-      this.studentsService.getStudentPayments(this.studentCode)
-        .subscribe({
-          next: (data) => {
-            this.studentPayments = data;
-              this.paymentsDataSource = new MatTableDataSource(this.studentPayments);
-            console.log("Payments for student " + this.studentCode, data);
-          },
-          error: (err) => {
-            console.error("Error fetching payments for student " + this.studentCode, err);
-          }
-        });
+
+    this.studentCode = this.activatedRoute.snapshot.params['code'];
+
+    this.studentsService.getStudentPayments(this.studentCode)
+      .subscribe({
+        next: (data) => {
+          this.studentPayments = data;
+
+          this.paymentsDataSource.data = data;   // meilleure pratique
+
+          console.log("Payments for student " + this.studentCode, data);
+        },
+        error: (err) => {
+          console.error("Error fetching payments for student " + this.studentCode, err);
+        }
+      });
   }
 
   newPayment() {
     this.router.navigateByUrl(`/admin/new-payment/${this.studentCode}`);
-
   }
 }

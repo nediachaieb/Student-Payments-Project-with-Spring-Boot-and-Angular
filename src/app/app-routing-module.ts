@@ -26,7 +26,7 @@ const routes: Routes = [
       {path : "students", component : Students},
       {path : "student-details/:code", component : StudentDetails},
       {path : "payments", component : Payments},
-      {path : "new-payment/:code", component :NewPayment },
+      {path : "new-payment/:studentCode", component :NewPayment },
       {path : "loadStudents", component : LoadStudents,
         canActivate:[AuthorizationGuard],data:{roles : ["ADMIN"]}},
       {path : "loadPayments", component : LoadPayments},
