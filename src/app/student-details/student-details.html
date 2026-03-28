@@ -48,6 +48,12 @@
           <th *matHeaderCellDef mat-header-cell mat-sort-header> First Name</th>
           <td *matCellDef="let element" mat-cell> {{ element.student?.firstName }}</td>
         </ng-container>
+        <ng-container matColumnDef="details">
+          <th *matHeaderCellDef mat-header-cell > details</th>
+          <td *matCellDef="let element">
+            <button (click)="paymentDetails(element)" mat-raised-button color="primary">Details</button>
+          </td>
+        </ng-container>
 
         <tr *matHeaderRowDef="displayedColumnsPayments" mat-header-row></tr>
         <tr *matRowDef="let row; columns: displayedColumnsPayments;" mat-row></tr>

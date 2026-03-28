@@ -1,0 +1,23 @@
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Payment File</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div *ngIf="!pdfFileUrl">Chargement du PDF...</div>
+
+      <div class="pdf-wrapper" *ngIf="pdfFileUrl">
+        <pdf-viewer
+          [src]="pdfFileUrl"
+          [render-text]="true"
+          [show-all]="true"
+          [original-size]="false"
+          [fit-to-page]="true"
+          [autoresize]="true"
+          style="display: block; width: 100%; height: 100%;">
+        </pdf-viewer>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

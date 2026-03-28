@@ -13,6 +13,7 @@ import {AuthGuard} from './guards/auth-guard';
 import {AuthorizationGuard} from './guards/authorization.guard';
 import {StudentDetails} from './student-details/student-details';
 import {NewPayment} from './new-payment/new-payment';
+import {PaymentDetails} from './payment-details/payment-details';
 
 const routes: Routes = [
   {path : "", component : Login},
@@ -27,6 +28,7 @@ const routes: Routes = [
       {path : "student-details/:code", component : StudentDetails},
       {path : "payments", component : Payments},
       {path : "new-payment/:studentCode", component :NewPayment },
+      {path : "payment-details/:id", component :PaymentDetails },
       {path : "loadStudents", component : LoadStudents,
         canActivate:[AuthorizationGuard],data:{roles : ["ADMIN"]}},
       {path : "loadPayments", component : LoadPayments},

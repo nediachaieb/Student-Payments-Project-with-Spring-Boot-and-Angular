@@ -22,7 +22,8 @@ export class StudentDetails implements OnInit {
     "type",
     "status",
     "amount",
-    "firstName"
+    "firstName",
+    "details"
   ];
 
   constructor(
@@ -52,5 +53,9 @@ export class StudentDetails implements OnInit {
 
   newPayment() {
     this.router.navigateByUrl(`/admin/new-payment/${this.studentCode}`);
+  }
+
+  paymentDetails(payment: any) {
+    this.router.navigateByUrl(`/admin/payment-details/${payment.id}`);
   }
 }

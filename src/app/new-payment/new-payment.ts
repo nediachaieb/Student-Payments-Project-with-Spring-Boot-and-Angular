@@ -67,6 +67,9 @@ export class NewPayment implements OnInit{
 
 
   }
+  afterLoadComplete ($event: any) {
+    console.log(event);
+  }
 
 
 }
