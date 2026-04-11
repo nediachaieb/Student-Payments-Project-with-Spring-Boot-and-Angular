@@ -1,7 +1,9 @@
 import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
-//
+import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
 import { AdminTemplate } from './admin-template/admin-template';
@@ -17,7 +19,11 @@ import { StudentDetails } from './student-details/student-details';
 import { NewPayment } from './new-payment/new-payment';
 import { NewStudent } from './new-student/new-student';
 import { PaymentDetails } from './payment-details/payment-details';
-// Angular Material Modules
+
+import { AuthGuard } from './guards/auth-guard';
+import { AuthorizationGuard } from './guards/authorization.guard';
+
+// Angular Material
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -31,16 +37,9 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import {AuthGuard} from './guards/auth-guard';
-import {AuthorizationGuard} from './guards/authorization.guard';
-import {HttpClientModule} from "@angular/common/http";
-
-import {MatSelectModule} from "@angular/material/select";
-import {
-  MatDatepickerModule,
-} from '@angular/material/datepicker';
-import {MAT_DATE_LOCALE, MatNativeDateModule} from '@angular/material/core';
-import {PdfViewerModule} from 'ng2-pdf-viewer';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 
 
 
@@ -63,10 +62,11 @@ import {PdfViewerModule} from 'ng2-pdf-viewer';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
-    // Angular Material Modules
+
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
@@ -83,12 +83,13 @@ import {PdfViewerModule} from 'ng2-pdf-viewer';
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    PdfViewerModule
   ],
   providers: [
-    provideBrowserGlobalErrorListeners(),AuthGuard,AuthorizationGuard,
+    provideBrowserGlobalErrorListeners(),
+    AuthGuard,
+    AuthorizationGuard,
     { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' }
   ],
   bootstrap: [App]
 })
-export class AppModule { }
+export class AppModule {}

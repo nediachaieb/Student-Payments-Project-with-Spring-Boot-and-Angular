@@ -1,57 +1,74 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { StudentsService } from '../services/students-service';
-import * as pdfjsLib from 'pdfjs-dist';
-
-(pdfjsLib as any).GlobalWorkerOptions.workerSrc =
-  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
 @Component({
   selector: 'app-payment-details',
   standalone: false,
   templateUrl: './payment-details.html',
-  styleUrl: './payment-details.css',
+  styleUrls: ['./payment-details.css'],
 })
 export class PaymentDetails implements OnInit, OnDestroy {
   paymentId!: number;
-  pdfFileUrl: string | null = null;
+
+  pdfBlobUrl: SafeResourceUrl | null = null;
+  private objectUrl: string | null = null;
+
   loading = true;
   errorMessage = '';
 
   constructor(
     private studentsService: StudentsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private sanitizer: DomSanitizer,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this.paymentId = Number(this.route.snapshot.params['id']);
-    console.log('Payment ID:', this.paymentId);
 
     this.studentsService.getPaymentDetails(this.paymentId).subscribe({
       next: (blob: Blob) => {
-        console.log('Blob reçu', blob);
+        console.log('Taille du PDF :', blob.size);
 
-        if (blob.size === 0) {
-          this.errorMessage = 'Le fichier PDF est vide.';
+        if (!blob || blob.size === 0) {
+          this.errorMessage = 'Le fichier PDF est vide ou invalide.';
           this.loading = false;
+          this.cdr.detectChanges();
           return;
         }
 
-        this.pdfFileUrl = URL.createObjectURL(blob);
-        console.log('URL du PDF', this.pdfFileUrl);
+        if (this.objectUrl) {
+          URL.revokeObjectURL(this.objectUrl);
+        }
+
+        this.objectUrl = URL.createObjectURL(blob);
+        this.pdfBlobUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.objectUrl);
+
         this.loading = false;
+        this.errorMessage = '';
+
+        this.cdr.detectChanges();
       },
       error: (err) => {
-        console.error('Erreur chargement PDF', err);
-        this.errorMessage = 'Erreur lors du chargement du PDF.';
+        console.error('Erreur PDF :', err);
+        this.errorMessage = 'Impossible de charger le fichier PDF.';
         this.loading = false;
+        this.cdr.detectChanges();
       }
     });
   }
 
   ngOnDestroy(): void {
-    if (this.pdfFileUrl) {
-      URL.revokeObjectURL(this.pdfFileUrl);
+    if (this.objectUrl) {
+      URL.revokeObjectURL(this.objectUrl);
+    }
+  }
+
+  openInNewTab(): void {
+    if (this.objectUrl) {
+      window.open(this.objectUrl, '_blank');
     }
   }
 }

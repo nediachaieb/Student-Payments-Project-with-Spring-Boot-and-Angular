@@ -16,7 +16,7 @@ export class StudentDetails implements OnInit {
 
   paymentsDataSource = new MatTableDataSource<Payment>();
 
-  public displayedColumnsPayments = [
+  public   displayedColumnsPayments = [
     "id",
     "date",
     "type",

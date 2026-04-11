@@ -1,75 +1,119 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {ActivatedRoute} from '@angular/router';
-import {PaymentType} from '../model/students.model';
-import {StudentsService} from '../services/students-service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { PaymentType } from '../model/students.model';
+import { StudentsService } from '../services/students-service';
 
 @Component({
   selector: 'app-new-payment',
   standalone: false,
   templateUrl: './new-payment.html',
-  styleUrl: './new-payment.css',
+  styleUrls: ['./new-payment.css'],
 })
-export class NewPayment implements OnInit{
-  paymentFormGroup!:FormGroup
+export class NewPayment implements OnInit, OnDestroy {
+  paymentFormGroup!: FormGroup;
   studentCode!: string;
-  paymentTypes!: string[] ;
-  pdfFileUrl!: string;
-  constructor(private fb : FormBuilder,private activatedRoute:ActivatedRoute,private studentsService:StudentsService) {
-  }
-  ngOnInit() {
-    this.paymentTypes=Object.values(PaymentType);
-    this.studentCode=this.activatedRoute.snapshot.params['studentCode'];
-    this.paymentFormGroup=this.fb.group(
-      {
-      date : this.fb.control(''),
-      amount : this.fb.control(''),
-      type : this.fb.control(''),
-      studentCode : this.fb.control(this.studentCode),
-      fileName : this.fb.control(''),
-      fileSource : this.fb.control('')
-    })
+  paymentTypes: string[] = [];
+
+  pdfFileUrl: SafeResourceUrl | null = null;
+  private rawPdfUrl: string | null = null;
+
+  constructor(
+    private fb: FormBuilder,
+    private activatedRoute: ActivatedRoute,
+    private studentsService: StudentsService,
+    private sanitizer: DomSanitizer
+  ) {}
+
+  ngOnInit(): void {
+    this.paymentTypes = Object.values(PaymentType);
+    this.studentCode = this.activatedRoute.snapshot.params['studentCode'];
+
+    this.paymentFormGroup = this.fb.group({
+      date: [null, Validators.required],
+      amount: [null, [Validators.required, Validators.min(0.01)]],
+      type: ['', Validators.required],
+      studentCode: [this.studentCode, Validators.required],
+      fileName: [''],
+      fileSource: [null, Validators.required],
+    });
   }
 
-  SelectFile(event: any) {
-    if (event.target.files.length > 0) {
-      let file = event.target.files[0];
-      this.paymentFormGroup.patchValue({
-        fileSource: file,
-        fileName: file.name
+  selectFile(event: Event): void {
+    const input = event.target as HTMLInputElement;
 
-      });
-      this.pdfFileUrl = window.URL.createObjectURL(file);
+    if (!input.files || input.files.length === 0) {
+      return;
     }
+
+    const file = input.files[0];
+
+    this.paymentFormGroup.patchValue({
+      fileSource: file,
+      fileName: file.name,
+    });
+
+    if (this.rawPdfUrl) {
+      URL.revokeObjectURL(this.rawPdfUrl);
+    }
+
+    this.rawPdfUrl = URL.createObjectURL(file);
+    this.pdfFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.rawPdfUrl);
   }
-  SavePayment() {
-    console.log(this.paymentFormGroup.value);
-    let date = new Date(this.paymentFormGroup.value.date);
-    let formattedDate = date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear();
-    let formData = new FormData();
-    formData.set('date',formattedDate);
-    formData.set('amount', this.paymentFormGroup.value.amount);
+
+  savePayment(): void {
+    if (this.paymentFormGroup.invalid) {
+      this.paymentFormGroup.markAllAsTouched();
+      return;
+    }
+
+    const rawDate = this.paymentFormGroup.value.date;
+    const date = new Date(rawDate);
+
+    const formattedDate =
+      date.getDate() +
+      '/' +
+      (date.getMonth() + 1) +
+      '/' +
+      date.getFullYear();
+
+    const formData = new FormData();
+    formData.set('date', formattedDate);
+    formData.set('amount', String(this.paymentFormGroup.value.amount));
     formData.set('type', this.paymentFormGroup.value.type);
     formData.set('studentCode', this.paymentFormGroup.value.studentCode);
     formData.set('file', this.paymentFormGroup.value.fileSource);
-    this.studentsService.savePayment(formData).subscribe(
-      {
-        next: value => {
-          alert("Payment saved successfully");
-        },
-        error: (err) => {
-          console.log(err);
-          alert("Error saving payment");
+
+    this.studentsService.savePayment(formData).subscribe({
+      next: () => {
+        alert('Payment saved successfully');
+        this.paymentFormGroup.reset({
+          date: null,
+          amount: null,
+          type: '',
+          studentCode: this.studentCode,
+          fileName: '',
+          fileSource: null,
+        });
+
+        if (this.rawPdfUrl) {
+          URL.revokeObjectURL(this.rawPdfUrl);
+          this.rawPdfUrl = null;
         }
-      }
-      );
 
-
-
+        this.pdfFileUrl = null;
+      },
+      error: (err) => {
+        console.error('Error saving payment:', err);
+        alert('Error saving payment');
+      },
+    });
   }
-  afterLoadComplete ($event: any) {
-    console.log(event);
+
+  ngOnDestroy(): void {
+    if (this.rawPdfUrl) {
+      URL.revokeObjectURL(this.rawPdfUrl);
+    }
   }
-
-
 }
