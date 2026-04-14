@@ -7,13 +7,12 @@ import {Profile} from './profile/profile';
 import {Dashboard} from './dashboard/dashboard';
 import {Students} from './students/students';
 import {Payments} from './payments/payments';
-import {LoadStudents} from './load-students/load-students';
-import {LoadPayments} from './load-payments/load-payments';
 import {AuthGuard} from './guards/auth-guard';
 import {AuthorizationGuard} from './guards/authorization.guard';
 import {StudentDetails} from './student-details/student-details';
 import {NewPayment} from './new-payment/new-payment';
 import {PaymentDetails} from './payment-details/payment-details';
+import {NewStudent} from './new-student/new-student';
 
 const routes: Routes = [
   {path : "", component : Login},
@@ -29,9 +28,7 @@ const routes: Routes = [
       {path : "payments", component : Payments},
       {path : "new-payment/:studentCode", component :NewPayment },
       {path : "payment-details/:id", component :PaymentDetails },
-      {path : "loadStudents", component : LoadStudents,
-        canActivate:[AuthorizationGuard],data:{roles : ["ADMIN"]}},
-      {path : "loadPayments", component : LoadPayments},
+      {path : "new-student", component : NewStudent}
     ]},
 ];
 

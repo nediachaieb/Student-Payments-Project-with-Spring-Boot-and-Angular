@@ -13,8 +13,6 @@ import { Login } from './login/login';
 import { Profile } from './profile/profile';
 import { Payments } from './payments/payments';
 import { Students } from './students/students';
-import { LoadStudents } from './load-students/load-students';
-import { LoadPayments } from './load-payments/load-payments';
 import { StudentDetails } from './student-details/student-details';
 import { NewPayment } from './new-payment/new-payment';
 import { NewStudent } from './new-student/new-student';
@@ -40,6 +38,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
+import { EditStudent } from './edit-student/edit-student';
 
 
 
@@ -53,12 +52,11 @@ import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
     Profile,
     Payments,
     Students,
-    LoadStudents,
-    LoadPayments,
     StudentDetails,
     NewPayment,
     NewStudent,
-    PaymentDetails
+    PaymentDetails,
+    EditStudent
   ],
   imports: [
     BrowserModule,

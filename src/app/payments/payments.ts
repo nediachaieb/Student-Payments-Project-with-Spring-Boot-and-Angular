@@ -4,6 +4,7 @@ import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {HttpClient} from '@angular/common/http';
 import {StudentsService} from '../services/students-service';
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-payments',
@@ -21,9 +22,11 @@ export class Payments implements OnInit, AfterViewInit {
     "type",
     "status",
     "amount",
-    "firstName"
+    "firstName",
+    "lastName",
+    "file"
   ];
-
+  backendHost = environment.backendHost;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -75,6 +78,11 @@ export class Payments implements OnInit, AfterViewInit {
       });
     }
 */
+  viewFile(paymentId: number) {
+    const url = `backendHost/payments/${paymentId}/file`;
+    window.open(url, '_blank');
+  }
+
 
 
   ngAfterViewInit(): void {

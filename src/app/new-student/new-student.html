@@ -1,1 +1,62 @@
-<p>new-student works!</p>
+<div class="container">
+  <form [formGroup]="studentFormGroup" class="student-form-wrapper">
+    <mat-card class="student-form">
+      <mat-card-header>
+        <mat-card-title>New Student</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content class="form-content">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Student Code</mat-label>
+          <input matInput formControlName="code" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>First Name</mat-label>
+          <input matInput formControlName="firstName" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Last Name</mat-label>
+          <input matInput formControlName="lastName" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Program</mat-label>
+          <input matInput formControlName="programId" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Photo</mat-label>
+          <button type="button" mat-icon-button matPrefix (click)="photoInput.click()">
+            <mat-icon>attach_file</mat-icon>
+          </button>
+          <input matInput readonly formControlName="photoName" />
+          <input
+            type="file"
+            #photoInput
+            accept="image/*"
+            (change)="selectPhoto($event)"
+            hidden
+          />
+        </mat-form-field>
+
+        <div *ngIf="photoFileUrl" class="photo-preview-container">
+          <img [src]="photoFileUrl" alt="Student photo preview" class="photo-preview" />
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions align="end">
+        <button
+          mat-raised-button
+          color="primary"
+          type="button"
+          (click)="saveStudent()"
+          [disabled]="studentFormGroup.invalid"
+        >
+          Save Student
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</div>

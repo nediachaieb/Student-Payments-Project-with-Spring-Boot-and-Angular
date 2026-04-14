@@ -44,7 +44,21 @@
           <th *matHeaderCellDef mat-header-cell mat-sort-header> First Name</th>
           <td *matCellDef="let element" mat-cell> {{ element.student.firstName }}</td>
         </ng-container>
+        <ng-container matColumnDef="lastName">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header> Last Name</th>
+          <td *matCellDef="let element" mat-cell> {{ element.student.lastName }}</td>
+        </ng-container>
+        <ng-container matColumnDef="file">
+          <th *matHeaderCellDef mat-header-cell> File</th>
+          <td *matCellDef="let element">
 
+            <!-- Voir PDF -->
+            <button mat-icon-button color="primary" (click)="viewFile(element.id)">
+              <mat-icon>visibility</mat-icon>
+            </button>
+
+          </td>
+        </ng-container>
         <tr *matHeaderRowDef="displayedColumnsPayments" mat-header-row></tr>
         <tr *matRowDef="let row; columns: displayedColumnsPayments;" mat-row></tr>
       </table>

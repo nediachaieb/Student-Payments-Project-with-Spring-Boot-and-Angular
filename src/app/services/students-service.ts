@@ -24,15 +24,15 @@ export class StudentsService {
     return this.http.post<Payment>(`${environment.backendHost}/payments`,formData);
   }
 
-  // getPaymentDetails(paymentId: number) {
-  //   return this.http.get(`${environment.backendHost}/payments/${paymentId}/file`, {
-  //     responseType: 'blob'
-  //   });
-  // }
-  getPaymentDetails(paymentId: number) {
+  public  getPaymentDetails(paymentId: number) {
     return this.http.get(
       `${environment.backendHost}/payments/${paymentId}/file`,
       { responseType: 'blob' }
     );
   }
+
+  public saveStudent(formData: FormData): Observable<Student> {
+    return this.http.post<Student>(`${environment.backendHost}/students`, formData);
+  }
+
 }

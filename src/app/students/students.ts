@@ -6,6 +6,8 @@ import {Router} from "@angular/router";
 import {HttpClient} from '@angular/common/http';
 import {StudentsService} from '../services/students-service';
 import {Student} from '../model/students.model';
+import { environment } from '../../environments/environment';
+
 @Component({
   selector: 'app-students',
   standalone: false,
@@ -15,9 +17,10 @@ import {Student} from '../model/students.model';
 export class Students implements OnInit{
   public students! : Array<Student> ;
   public studentDataSource! : MatTableDataSource<Student, MatPaginator>;
-  public displayedColumnsStudent =["id","firstName","lastName","payments"]
+  displayedColumnsStudent = ['id', 'photo', 'firstName', 'lastName', 'actions'];
   @ViewChild(MatPaginator) paginator! : MatPaginator;
   @ViewChild(MatSort) sort! : MatSort;
+  backendHost = environment.backendHost;
   constructor( private router : Router , private http: HttpClient , private studentsService : StudentsService) {
   }
 
@@ -66,15 +69,32 @@ export class Students implements OnInit{
     this.studentDataSource.filter = value;
   }
 
-
-  // studentPayments(student : student) {
-  //   this.router.navigateByUrl("/payments")
-  // }
-
    studentPayments(student : Student) {
      this.router.navigateByUrl(`/admin/student-details/${student.code}`);
    }
+  onImageError(event: Event): void {
+    const img = event.target as HTMLImageElement;
+    img.src = 'assets/default-avatar.png';
+  }
 
-
+  editStudent(student: any): void {
+    this.router.navigateByUrl(`/admin/edit-student/${student.id}`);
+  }
+  newStudent() {
+    this.router.navigateByUrl('/admin/new-student');
+  }
+  // deleteStudent(student: any) {
+  //   if (!confirm("Are you sure you want to delete this student?")) return;
+  //
+  //   this.studentsService.deleteStudent(student.id).subscribe({
+  //     next: () => {
+  //       alert("Student deleted");
+  //       this.loadStudents(); // recharge la liste
+  //     },
+  //     error: err => {
+  //       console.error(err);
+  //       alert("Error deleting student");
+  //     }
+  //   });
 
 }
