@@ -14,32 +14,33 @@ import { environment } from '../../environments/environment';
   templateUrl: './students.html',
   styleUrl: './students.css',
 })
-export class Students implements OnInit{
-  public students! : Array<Student> ;
-  public studentDataSource! : MatTableDataSource<Student, MatPaginator>;
+export class Students implements OnInit {
+  public students!: Array<Student>;
+  public studentDataSource!: MatTableDataSource<Student, MatPaginator>;
   displayedColumnsStudent = ['id', 'photo', 'firstName', 'lastName', 'actions'];
-  @ViewChild(MatPaginator) paginator! : MatPaginator;
-  @ViewChild(MatSort) sort! : MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
   backendHost = environment.backendHost;
-  constructor( private router : Router , private http: HttpClient , private studentsService : StudentsService) {
+
+  constructor(private router: Router, private http: HttpClient, private studentsService: StudentsService) {
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {this.loadStudents();}
 
-   // this.http.get("http://localhost:8080/students")
-    this.studentsService.getALLStudents()
-      .subscribe({
-        next: (data: any) => {
+    loadStudents() {
+      this.studentsService.getALLStudents().subscribe({
+        next: (data) => {
           this.students = data;
           this.studentDataSource = new MatTableDataSource(this.students);
+
           this.studentDataSource.paginator = this.paginator;
           this.studentDataSource.sort = this.sort;
         },
         error: (err) => {
-          console.error("Error fetching students:", err);
+          console.error("Error loading students:", err);
         }
       });
-  }
+    }
 
   // ngOnInit() {
   //   this.students=[];
@@ -69,9 +70,10 @@ export class Students implements OnInit{
     this.studentDataSource.filter = value;
   }
 
-   studentPayments(student : Student) {
-     this.router.navigateByUrl(`/admin/student-details/${student.code}`);
-   }
+  studentPayments(student: Student) {
+    this.router.navigateByUrl(`/admin/student-details/${student.code}`);
+  }
+
   onImageError(event: Event): void {
     const img = event.target as HTMLImageElement;
     img.src = 'assets/default-avatar.png';
@@ -80,21 +82,24 @@ export class Students implements OnInit{
   editStudent(student: any): void {
     this.router.navigateByUrl(`/admin/edit-student/${student.id}`);
   }
+
   newStudent() {
     this.router.navigateByUrl('/admin/new-student');
   }
-  // deleteStudent(student: any) {
-  //   if (!confirm("Are you sure you want to delete this student?")) return;
-  //
-  //   this.studentsService.deleteStudent(student.id).subscribe({
-  //     next: () => {
-  //       alert("Student deleted");
-  //       this.loadStudents(); // recharge la liste
-  //     },
-  //     error: err => {
-  //       console.error(err);
-  //       alert("Error deleting student");
-  //     }
-  //   });
 
+  deleteStudent(student: any) {
+    if (!confirm("Are you sure you want to delete this student?")) return;
+
+    this.studentsService.deleteStudent(student.id).subscribe({
+      next: () => {
+        alert("Student deleted");
+        this.loadStudents(); // recharge la liste
+      },
+      error: err => {
+        console.error(err);
+        alert("Error deleting student");
+      }
+    });
+
+  }
 }

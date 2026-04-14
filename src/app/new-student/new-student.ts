@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { StudentsService } from '../services/students-service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-new-student',
@@ -18,7 +19,8 @@ export class NewStudent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private studentsService: StudentsService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -73,22 +75,7 @@ export class NewStudent implements OnInit, OnDestroy {
     this.studentsService.saveStudent(formData).subscribe({
       next: () => {
         alert('Student saved successfully');
-
-        this.studentFormGroup.reset({
-          code: '',
-          firstName: '',
-          lastName: '',
-          programId: '',
-          photoName: '',
-          photoSource: null,
-        });
-
-        if (this.rawPhotoUrl) {
-          URL.revokeObjectURL(this.rawPhotoUrl);
-          this.rawPhotoUrl = null;
-        }
-
-        this.photoFileUrl = null;
+        this.router.navigateByUrl('/admin/students');
       },
       error: (err) => {
         console.error('Error saving student:', err);

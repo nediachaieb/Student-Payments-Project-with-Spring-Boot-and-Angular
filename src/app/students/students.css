@@ -38,4 +38,9 @@ table {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
+  align-items: center;
+}
+
+mat-icon {
+  font-size: 20px;
 }

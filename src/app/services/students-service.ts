@@ -34,5 +34,8 @@ export class StudentsService {
   public saveStudent(formData: FormData): Observable<Student> {
     return this.http.post<Student>(`${environment.backendHost}/students`, formData);
   }
+  deleteStudent(id: number) {
+    return this.http.delete(`${environment.backendHost}/students/${id}`);
+  }
 
 }

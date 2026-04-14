@@ -5,6 +5,7 @@ import {MatSort} from "@angular/material/sort";
 import {HttpClient} from '@angular/common/http';
 import {StudentsService} from '../services/students-service';
 import {environment} from '../../environments/environment';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-payments',
@@ -30,7 +31,7 @@ export class Payments implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor( private http: HttpClient, private  studentsService: StudentsService) {
+  constructor( private http: HttpClient, private  studentsService: StudentsService,private router: Router) {
   }
 
   ngOnInit(): void {
@@ -78,10 +79,15 @@ export class Payments implements OnInit, AfterViewInit {
       });
     }
 */
-  viewFile(paymentId: number) {
-    const url = `backendHost/payments/${paymentId}/file`;
-    window.open(url, '_blank');
+  viewFile(payment: any) {
+    if (!payment || payment.id == null) {
+      console.error('Invalid payment:', payment);
+      return;
+    }
+
+    this.router.navigateByUrl(`/admin/payment-details/${payment.id}`);
   }
+
 
 
 

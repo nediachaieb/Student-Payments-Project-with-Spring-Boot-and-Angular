@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { PaymentType } from '../model/students.model';
 import { StudentsService } from '../services/students-service';
@@ -23,6 +23,7 @@ export class NewPayment implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private studentsService: StudentsService,
+    private router: Router,
     private sanitizer: DomSanitizer
   ) {}
 
@@ -88,21 +89,7 @@ export class NewPayment implements OnInit, OnDestroy {
     this.studentsService.savePayment(formData).subscribe({
       next: () => {
         alert('Payment saved successfully');
-        this.paymentFormGroup.reset({
-          date: null,
-          amount: null,
-          type: '',
-          studentCode: this.studentCode,
-          fileName: '',
-          fileSource: null,
-        });
-
-        if (this.rawPdfUrl) {
-          URL.revokeObjectURL(this.rawPdfUrl);
-          this.rawPdfUrl = null;
-        }
-
-        this.pdfFileUrl = null;
+        this.router.navigateByUrl('/admin/payments');
       },
       error: (err) => {
         console.error('Error saving payment:', err);
