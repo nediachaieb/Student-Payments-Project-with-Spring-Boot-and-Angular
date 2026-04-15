@@ -13,6 +13,7 @@ import {StudentDetails} from './student-details/student-details';
 import {NewPayment} from './new-payment/new-payment';
 import {PaymentDetails} from './payment-details/payment-details';
 import {NewStudent} from './new-student/new-student';
+import {EditStudent} from './edit-student/edit-student';
 
 const routes: Routes = [
   {path : "", component : Login},
@@ -28,7 +29,8 @@ const routes: Routes = [
       {path : "payments", component : Payments},
       {path : "new-payment/:studentCode", component :NewPayment },
       {path : "payment-details/:id", component :PaymentDetails },
-      {path : "new-student", component : NewStudent}
+      {path : "new-student", component : NewStudent},
+      {path :"edit-student/:code", component : EditStudent}
     ]},
 ];
 

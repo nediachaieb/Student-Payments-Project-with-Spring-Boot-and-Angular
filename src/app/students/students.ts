@@ -80,8 +80,9 @@ export class Students implements OnInit {
   }
 
   editStudent(student: any): void {
-    this.router.navigateByUrl(`/admin/edit-student/${student.id}`);
+    this.router.navigateByUrl(`/admin/edit-student/${student.code}`);
   }
+
 
   newStudent() {
     this.router.navigateByUrl('/admin/new-student');
