@@ -43,4 +43,16 @@ export class StudentsService {
   public  savePayment(formData:any) :Observable<Payment>{
     return this.http.post<Payment>(`${environment.backendHost}/payments`,formData);
   }
+  public deletePayment(id: number) {
+    return this.http.delete(`${environment.backendHost}/payments/${id}`);
+  }
+
+  public updatePayment(id: number, formData: FormData) {
+    return this.http.put(`${environment.backendHost}/payments/${id}`, formData);
+  }
+
+  public getPaymentById(id: number) {
+    return this.http.get<Payment>(`${environment.backendHost}/payments/${id}`);
+  }
+
 }

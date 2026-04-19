@@ -59,6 +59,28 @@
 
           </td>
         </ng-container>
+        <ng-container matColumnDef="actions">
+          <th *matHeaderCellDef mat-header-cell>Actions</th>
+          <td *matCellDef="let element" mat-cell>
+            <div class="action-buttons">
+              <button
+                mat-icon-button
+                color="accent"
+                type="button"
+                (click)="editPayment(element)">
+                <mat-icon>edit</mat-icon>
+              </button>
+
+              <button
+                mat-icon-button
+                color="warn"
+                type="button"
+                (click)="deletePayment(element)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
         <tr *matHeaderRowDef="displayedColumnsPayments" mat-header-row></tr>
         <tr *matRowDef="let row; columns: displayedColumnsPayments;" mat-row></tr>
       </table>

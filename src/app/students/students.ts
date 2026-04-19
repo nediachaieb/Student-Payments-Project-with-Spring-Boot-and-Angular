@@ -17,7 +17,7 @@ import { environment } from '../../environments/environment';
 export class Students implements OnInit {
   public students!: Array<Student>;
   public studentDataSource!: MatTableDataSource<Student, MatPaginator>;
-  displayedColumnsStudent = ['id', 'photo', 'firstName', 'lastName', 'actions'];
+  displayedColumnsStudent = ['id', 'photo', 'firstName', 'lastName','code','program', 'actions'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   backendHost = environment.backendHost;

@@ -39,6 +39,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { EditStudent } from './edit-student/edit-student';
+import { EditPayment } from './edit-payment/edit-payment';
 
 
 
@@ -56,7 +57,8 @@ import { EditStudent } from './edit-student/edit-student';
     NewPayment,
     NewStudent,
     PaymentDetails,
-    EditStudent
+    EditStudent,
+    EditPayment
   ],
   imports: [
     BrowserModule,

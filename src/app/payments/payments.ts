@@ -25,7 +25,8 @@ export class Payments implements OnInit, AfterViewInit {
     "amount",
     "firstName",
     "lastName",
-    "file"
+    "file",
+    "actions"
   ];
   backendHost = environment.backendHost;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -34,8 +35,9 @@ export class Payments implements OnInit, AfterViewInit {
   constructor( private http: HttpClient, private  studentsService: StudentsService,private router: Router) {
   }
 
-  ngOnInit(): void {
-
+  ngOnInit(): void {this.loadPayments();
+  }
+    loadPayments(): void {
     this.studentsService.getALLPayments()
       .subscribe({
         next: (data: any) => {
@@ -48,6 +50,26 @@ export class Payments implements OnInit, AfterViewInit {
           console.error("Error fetching payments:", err);
         }
       });
+  }
+  editPayment(payment: any) {
+    this.router.navigateByUrl(`/admin/edit-payment/${payment.id}`);
+  }
+
+  deletePayment(payment: any) {
+    if (!confirm('Are you sure you want to delete this payment?')) {
+      return;
+    }
+
+    this.studentsService.deletePayment(payment.id).subscribe({
+      next: () => {
+        alert('Payment deleted successfully');
+        this.loadPayments();
+      },
+      error: (err) => {
+        console.error('Error deleting payment:', err);
+        alert('Error deleting payment');
+      }
+    });
   }
 
 /*
