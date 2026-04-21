@@ -17,23 +17,30 @@ import {EditStudent} from './edit-student/edit-student';
 import {EditPayment} from './edit-payment/edit-payment';
 
 const routes: Routes = [
-  {path : "", component : Login},
-  {path : "login", component : Login},
-  {path : "admin", component : AdminTemplate,
-    canActivate:[AuthGuard],
-    children : [
-      {path : "home", component : Home},
-      {path : "profile", component : Profile},
-      {path : "dashboard", component : Dashboard},
-      {path : "students", component : Students},
-      {path : "student-details/:code", component : StudentDetails},
-      {path : "payments", component : Payments},
-      {path : "new-payment/:studentCode", component :NewPayment },
-      {path : "payment-details/:id", component :PaymentDetails },
-      {path : "new-student", component : NewStudent},
-      {path :"edit-student/:code", component : EditStudent},
-      {path: 'edit-payment/:id', component: EditPayment },
-    ]},
+  { path: '', component: Login },
+  { path: 'login', component: Login },
+
+  {
+    path: 'admin',
+    component: AdminTemplate,
+    canActivate: [AuthGuard],
+    children: [
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
+      { path: 'home', component: Home },
+      { path: 'profile', component: Profile },
+      { path: 'dashboard', component: Dashboard },
+      { path: 'students', component: Students },
+      { path: 'student-details/:code', component: StudentDetails },
+      { path: 'payments', component: Payments },
+      { path: 'new-payment/:studentCode', component: NewPayment },
+      { path: 'payment-details/:id', component: PaymentDetails },
+      { path: 'new-student', component: NewStudent },
+      { path: 'edit-student/:code', component: EditStudent },
+      { path: 'edit-payment/:id', component: EditPayment }
+    ]
+  },
+
+  { path: '**', redirectTo: 'login' }
 ];
 
 

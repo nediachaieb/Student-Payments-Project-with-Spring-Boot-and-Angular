@@ -1,11 +1,78 @@
-<div class="container">
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>Home title</mat-card-title>
-    </mat-card-header>
-    <mat-divider></mat-divider>
-    <mat-card-content>
-      Home Content
-    </mat-card-content>
+<div class="home-container">
+
+  <mat-card class="welcome-card">
+    <div class="welcome-text">
+      <h1>Welcome Admin</h1>
+      <p>Here you can quickly see the number of students and payments.</p>
+    </div>
   </mat-card>
+
+  <mat-card class="slider-card">
+    <div class="slider">
+      <img [src]="images[currentImage]" alt="Home slide" class="slider-image">
+
+      <div class="slider-overlay"></div>
+
+      <div class="slider-text">
+        <h2>Manage Your School</h2>
+        <p>Track students and payments easily</p>
+      </div>
+
+      <button
+        mat-mini-fab
+        color="primary"
+        class="nav-btn prev-btn"
+        (click)="prevImage()">
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+
+      <button
+        mat-mini-fab
+        color="primary"
+        class="nav-btn next-btn"
+        (click)="nextImage()">
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+
+      <div class="dots">
+        <span
+          *ngFor="let image of images; let i = index"
+          class="dot"
+          [class.active]="i === currentImage"
+          (click)="goToImage(i)">
+        </span>
+      </div>
+    </div>
+  </mat-card>
+
+  <div *ngIf="isLoading" class="message-box">
+    <mat-card>
+      <p>Loading dashboard data...</p>
+    </mat-card>
+  </div>
+
+  <div *ngIf="errorMessage" class="message-box error-box">
+    <mat-card>
+      <p>{{ errorMessage }}</p>
+    </mat-card>
+  </div>
+
+  <div class="stats-container" *ngIf="!isLoading && !errorMessage">
+    <mat-card class="stat-card students-card">
+      <div class="stat-content">
+        <mat-icon>groups</mat-icon>
+        <h2>{{ studentsCountDisplay }}</h2>
+        <p>Total Students</p>
+      </div>
+    </mat-card>
+
+    <mat-card class="stat-card payments-card">
+      <div class="stat-content">
+        <mat-icon>payments</mat-icon>
+        <h2>{{ paymentsCountDisplay }}</h2>
+        <p>Total Payments</p>
+      </div>
+    </mat-card>
+  </div>
+
 </div>

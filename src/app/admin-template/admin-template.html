@@ -1,42 +1,67 @@
-<mat-toolbar color="primary" >
+<mat-toolbar color="primary" class="topbar">
   <button mat-icon-button (click)="drawer.toggle()">
     <mat-icon>menu</mat-icon>
   </button>
+
+  <div class="brand">
+    <mat-icon>school</mat-icon>
+    <span>Admin Panel</span>
+  </div>
+
   <span class="spacer"></span>
-  <button  mat-button routerLink="/admin/home">Home</button>
-  <button  mat-button routerLink="/admin/profile" >Profile</button>
-  <button *ngIf="authService.isAuthenticated" mat-button>
+
+  <button mat-button routerLink="/admin/home" routerLinkActive="active-link">
+    Home
+  </button>
+
+  <button mat-button routerLink="/admin/profile" routerLinkActive="active-link">
+    Profile
+  </button>
+
+  <button *ngIf="authService.isAuthenticated" mat-button disabled class="user-btn">
+    <mat-icon>account_circle</mat-icon>
     {{ authService.username }}
   </button>
-  <button (click)="logout()" color="accent" mat-raised-button>logout</button>
+
+  <button (click)="logout()" color="accent" mat-raised-button>
+    <mat-icon>logout</mat-icon>
+    Logout
+  </button>
 </mat-toolbar>
-<mat-drawer-container>
-  <mat-drawer #drawer mode="side" position="start" opened="false">
+
+<mat-drawer-container class="layout-container">
+  <mat-drawer #drawer mode="side" opened class="sidebar">
+    <div class="sidebar-header">
+      <mat-icon>admin_panel_settings</mat-icon>
+      <h3>Navigation</h3>
+    </div>
+
     <mat-nav-list>
-      <mat-list-item>
-        <button mat-button routerLink="/admin/dashboard">
-          <mat-icon>dashboard</mat-icon>
-          Dashboard
-        </button>
-      </mat-list-item>
-      <mat-list-item>
-        <button mat-button  routerLink="/admin/students" >
-          <mat-icon>dashboard</mat-icon>
-          Students
-        </button>
-      </mat-list-item>
-      <mat-list-item>
-        <button mat-button routerLink="/admin/payments">
-          <mat-icon>dashboard</mat-icon>
-          Payments
-        </button>
-      </mat-list-item>
+      <a mat-list-item routerLink="/admin/dashboard" routerLinkActive="menu-active">
+        <mat-icon matListItemIcon>dashboard</mat-icon>
+        <span matListItemTitle>Dashboard</span>
+      </a>
+
+      <a mat-list-item routerLink="/admin/students" routerLinkActive="menu-active">
+        <mat-icon matListItemIcon>groups</mat-icon>
+        <span matListItemTitle>Students</span>
+      </a>
+
+      <a mat-list-item routerLink="/admin/payments" routerLinkActive="menu-active">
+        <mat-icon matListItemIcon>payments</mat-icon>
+        <span matListItemTitle>Payments</span>
+      </a>
+
+      <a mat-list-item routerLink="/admin/new-student" routerLinkActive="menu-active">
+        <mat-icon matListItemIcon>person_add</mat-icon>
+        <span matListItemTitle>New Student</span>
+      </a>
     </mat-nav-list>
   </mat-drawer>
-  <mat-drawer-content>
-    <div style="min-height: 600px">
+
+  <mat-drawer-content class="content-area">
+    <div class="page-wrapper">
       <router-outlet></router-outlet>
     </div>
   </mat-drawer-content>
-
 </mat-drawer-container>

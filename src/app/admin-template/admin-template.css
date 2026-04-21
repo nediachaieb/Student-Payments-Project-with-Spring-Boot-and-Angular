@@ -1,3 +1,76 @@
+.layout-container {
+  height: calc(100vh - 64px);
+  background: #f5f7fb;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 10px;
+  font-weight: 600;
+  font-size: 18px;
+}
+
 .spacer {
-  flex: auto;
+  flex: 1 1 auto;
+}
+
+.sidebar {
+  width: 260px;
+  padding: 10px 0;
+  background: #ffffff;
+  border-right: 1px solid #e0e0e0;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 20px;
+  border-bottom: 1px solid #eeeeee;
+  margin-bottom: 10px;
+}
+
+.sidebar-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.content-area {
+  background: linear-gradient(to bottom right, #f8f9fc, #eef2f7);
+}
+
+.page-wrapper {
+  padding: 24px;
+  min-height: 100%;
+}
+
+.active-link {
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.menu-active {
+  background: rgba(103, 58, 183, 0.12);
+  border-right: 4px solid #673ab7;
+  color: #673ab7;
+  font-weight: 600;
+}
+
+.user-btn {
+  margin-right: 10px;
+}
+
+a[mat-list-item] {
+  margin: 4px 8px;
+  border-radius: 8px;
 }
